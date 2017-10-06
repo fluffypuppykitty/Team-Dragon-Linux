@@ -322,8 +322,8 @@ edit_passwd_policy()
 		sed -i 's/sha512/sha512 minlen=12/' "/etc/pam.d/common-password"
 	fi
 	
-	sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t30/' /etc/login.defs
-    	sed -i -e 's/PASS_MIN_DAYS\t[[:digit:]]\+/PASS_MIN_DAYS\t7/' /etc/login.defs
+	sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
+    	sed -i -e 's/PASS_MIN_DAYS\t[[:digit:]]\+/PASS_MIN_DAYS\t10/' /etc/login.defs
     	sed -i -e 's/PASS_WARN_AGE\t[[:digit:]]\+/PASS_WARN_AGE\t14/' /etc/login.defs
 	
 	check_no_pass
@@ -371,7 +371,7 @@ apt-get update --force-yes -y
 echo "$(tput setaf 2)Upgrading$(tput sgr0)"
 apt-get upgrade --force-yes -y
 
-echo "$(tput setaf 2)Firefox is sometimes a little bitch and won't update with everyone else, cause it wants to be a special little snowflake$(tput sgr0)"
+echo "$(tput setaf 2)Firefox is sometimes won't update with everyone else$(tput sgr0)"
 apt-get --purge --reinstall install firefox
 echo "$(tput setaf 2)Same with Libre Office$(tput sgr0)"
 echo "$(tput setaf 2)Adding Libre Office repository$(tput sgr0)"
