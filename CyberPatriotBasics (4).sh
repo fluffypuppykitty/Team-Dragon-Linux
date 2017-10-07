@@ -336,7 +336,7 @@ disable_root_account()
 
 disable_guest_account()
 {
-    echo 'allow-guest=false' >> /etc/lightdm/lightdm.conf
+    echo 'allow_guest=false' >> /etc/lightdm/lightdm.conf
 }
 
 #### Main
