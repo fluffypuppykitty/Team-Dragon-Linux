@@ -371,7 +371,7 @@ apt-get update --force-yes -y
 echo "$(tput setaf 2)Upgrading$(tput sgr0)"
 apt-get upgrade --force-yes -y
 
-echo "$(tput setaf 2)Firefox is sometimes won't update with everyone else$(tput sgr0)"
+echo "$(tput setaf 2)Firefox sometimes won't update with everyone else$(tput sgr0)"
 apt-get --purge --reinstall install firefox
 echo "$(tput setaf 2)Same with Libre Office$(tput sgr0)"
 echo "$(tput setaf 2)Adding Libre Office repository$(tput sgr0)"
