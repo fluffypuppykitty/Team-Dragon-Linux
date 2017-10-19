@@ -1,3 +1,4 @@
+#!/bin/bash
 disable_ssh_root_login()
 {
     if [[ -f /etc/ssh/sshd_config ]]; then
