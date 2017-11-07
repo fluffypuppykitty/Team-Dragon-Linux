@@ -1,9 +1,1 @@
 #!/bin/bash
-disable_ssh_root_login()
-{
-    if [[ -f /etc/ssh/sshd_config ]]; then
-        sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
-    else
-        echo "No SSH server detected so nothing changed"
-    fi
-    echo "Disabled SSH root login"
