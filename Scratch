@@ -1,1 +1,1 @@
-#!/bin/bash
+print "sudo ufw enable"
