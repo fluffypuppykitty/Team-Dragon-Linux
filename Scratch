@@ -9,5 +9,5 @@ os.system("sudo apt-get purge samba")
 
 import pexpect
 pexpect.spawn('sudo apt-get install synaptic')
-pexpect.expect('Are you sure you want to continue? [Y/n]')
+pexpect.expect('Do want to continue? [Y/n]')
 pexpect.sendline('Y')
