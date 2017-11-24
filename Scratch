@@ -1,6 +1,6 @@
-import os.system
+# This is just a script I am trying out; Not final!
+# It's purpose is to fix the "regular" vulnerabilities in Linux (things like enable firwall, disabling root, removing malware)
+# This script is for the use of Team Dragon ONLY
+import os
 os.system("sudo ufw enable")
-child = pexpect.spawn('sudo apt-get install synaptic')
-child.expect ('Do you want to continue? [Y/n]')
-child.sendline ('Y')
-
+os.system("sudo apt-get purge samba")
