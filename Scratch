@@ -1,4 +1,4 @@
-
+#!/bin/python
 
 # This is just a script I am trying out; Not final!
 # It's purpose is to fix the "regular" vulnerabilities in Linux (things like enable firwall, disabling root, removing malware)
