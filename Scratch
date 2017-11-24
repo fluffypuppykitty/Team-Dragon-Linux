@@ -1,1 +1,6 @@
-print "sudo ufw enable"
+import os.system
+os.system("sudo ufw enable")
+child = pexpect.spawn('sudo apt-get install synaptic')
+child.expect ('Do you want to continue? [Y/n]')
+child.sendline ('Y')
+
