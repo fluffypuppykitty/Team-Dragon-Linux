@@ -5,9 +5,27 @@
 # This script is for the use of Team Dragon ONLY
 import os
 os.system("sudo ufw enable")
-os.system("sudo apt-get purge samba")
+os.system("sudo ufw deny telnet")
+os.system("sudo ufw deny ftp")
 
-import pexpect
-pexpect.spawn('sudo apt-get install synaptic')
-pexpect.expect('Do want to continue? [Y/n]')
-pexpect.sendline('Y')
+os.system("sudo apt-get purge samba")
+os.system("sudo apt-get purge john")
+os.system("sudo apt-get purge ftp")
+
+os.system("apt-get install synaptic")
+os.system("sudo synaptic")
+# Search for malware here and uncheck the boxes
+# Examples:netcat, rainbowcrack, telnet, ftp, vnc, etc.
+
+os.system("sudo nano /etc/ssh/sshd_config")
+# Set PermitRootLogin to no
+
+os.system("sudo nano /etc/lightdm/lightdm.conf")
+# Remove line with autologin-user
+# Add the line: allow_guest=false
+
+os.system("sudo apt-get install libpam.cracklib")
+os.system("sudo nano /etc/pam.d/common-password")
+# At end of pam_unix.so line; remember=5
+# At end of pam_cracklib.so line; ucredit=1; lcredit=1; dcredit=1; ocredit=1
+
