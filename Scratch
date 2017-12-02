@@ -11,6 +11,7 @@ os.system("sudo ufw deny ftp")
 os.system("sudo apt-get purge samba")
 os.system("sudo apt-get purge john")
 os.system("sudo apt-get purge ftp")
+os.system("sudo apt0get purge telnet")
 
 os.system("apt-get install synaptic")
 os.system("sudo synaptic")
