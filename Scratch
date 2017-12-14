@@ -7,11 +7,12 @@ import os
 os.system("sudo ufw enable")
 os.system("sudo ufw deny telnet")
 os.system("sudo ufw deny ftp")
+os.system("sudo ufw allow ssh")
 
 os.system("sudo apt-get purge samba")
 os.system("sudo apt-get purge john")
 os.system("sudo apt-get purge ftp")
-os.system("sudo apt0get purge telnet")
+os.system("sudo apt-get purge telnet")
 
 os.system("apt-get install synaptic")
 os.system("sudo synaptic")
