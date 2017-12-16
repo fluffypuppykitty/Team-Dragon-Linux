@@ -14,7 +14,7 @@ os.system("sudo apt-get purge john")
 os.system("sudo apt-get purge ftp")
 os.system("sudo apt-get purge telnet")
 
-os.system("apt-get install synaptic")
+os.system("sudo apt-get install synaptic")
 os.system("sudo synaptic")
 # Search for malware here and uncheck the boxes
 # Examples:netcat, rainbowcrack, telnet, ftp, vnc, etc.
