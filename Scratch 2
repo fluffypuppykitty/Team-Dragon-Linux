@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# This script has been designed to do the basic vulnerabilities in Linux VMs, and is for the use of Cyberpatriot Team Dragon ONLY
+# TASKS:
+# Disable guest login, enable firewall, remove common malware, 
+
+disable_guest()
+
+{
+  sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
+  sed -i '/allow_guest=true/d' /etc/lightdm/lightdm.conf
+  echo 'allow_guest=false' >> /etc/lightdm/lightdm.conf
+}
+
+enable_firewall()
+
+{
+sudo ufw enable
+}
+
+remove_malware()
+
+{
+  sudo apt-get purge john --force-yes -y
+  sudo apt-get purge telnet --force-yes -y
+  sudo apt-get purge ftp --force-yes -y
+}
+
