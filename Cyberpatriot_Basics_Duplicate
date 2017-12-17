@@ -335,6 +335,8 @@ disable_root_account()
 
 disable_guest_account()
 {
+    sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
+    sed -i '/allow_guest=true/d' /etc/lightdm/lightdm.conf
     echo 'allow_guest=false' >> /etc/lightdm/lightdm.conf
 }
 
