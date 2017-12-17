@@ -2,7 +2,7 @@
 
 # This script has been designed to do the basic vulnerabilities in Linux VMs, and is for the use of Cyberpatriot Team Dragon ONLY
 # TASKS:
-# Disable guest login, enable firewall, remove common malware, 
+# Disable guest login, enable firewall, remove common malware, set PermitRootLogin
 
 disable_guest()
 
@@ -25,4 +25,16 @@ remove_malware()
   sudo apt-get purge telnet --force-yes -y
   sudo apt-get purge ftp --force-yes -y
 }
+
+set_permitrootlogin()
+
+{
+  if [[ -f /etc/ssh/sshd_config ]]; then
+        sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    else
+        sudo apt-get install ssh --force-yes -y
+	sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    fi
+}
+
 
