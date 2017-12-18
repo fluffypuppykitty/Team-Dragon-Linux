@@ -24,12 +24,14 @@ remove_malware()
   sudo apt-get purge john --force-yes -y
   sudo apt-get purge telnet --force-yes -y
   sudo apt-get purge ftp --force-yes -y
+  sudo apt-get purge samba --force-yes -y
+  sudo apt-get install synaptic --force-yes -y
 }
 
 set_PermitRootLogin()
 
 {
-  if [[ -f /etc/ssh/sshd_config ]]; then
+if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
     else
         sudo apt-get install ssh --force-yes -y
@@ -37,4 +39,13 @@ set_PermitRootLogin()
     fi
 }
 
+set_PermitEmptyPasswords()
+
+{
+if [[ -f /etc/ssh/sshd_config ]]; then
+        sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    else
+        sudo apt-get install ssh --force-yes -y
+	sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    fi
 
