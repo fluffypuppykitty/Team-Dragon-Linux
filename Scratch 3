@@ -1,4 +1,6 @@
 #!/bin/bash
+#(Ctrl+Alt+T)to access terminal
+#This script is designed to take care of common vulnerabilities on Ubuntu 14
 
 {
 echo "<UPDATE UTILITIES>"
@@ -56,5 +58,44 @@ echo "<DISABLE GUEST>"
 	echo "<START>"
   sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
   sed -i 's/allow_guest = true/allow_guest = false/g' /etc/lightdm/lightdm.conf
+  sed -i 's/allow_guest = /allow_guest = false/g' /etc/lightdm/lightdm.conf
+	echo "<END>"
+}
+
+{
+echo "<FIREWALL PORT RULES>"
+	echo "<START>"
+  sudo ufw allow ssh
+  sudo ufw deny telnet
+  sudo ufw deny ftp
+	echo "<END>"
+}
+
+{
+echo "<REMOVE BAD SERVICES>"
+	echo "<START>"
+  sudo apt-get purge telnet
+  sudo apt-get purge john
+  sudo apt-get purge ftp
+  sudo apt-get purge wireshark
+  sudo apt-get purge nmap
+  sudo apt-get purge samba
+  sudo apt-get install synaptic
+       echo "<END>"
+}
+
+{
+echo "<SECURE ROOT PASSWORD>"
+	echo "<START>"
+  sudo passwd
+	echo "<END>"
+}
+
+{
+echo "<PASSWORD POLICY>"
+	echo "<START>"
+sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
+    	sed -i -e 's/PASS_MIN_DAYS\t[[:digit:]]\+/PASS_MIN_DAYS\t10/' /etc/login.defs
+    	sed -i -e 's/PASS_WARN_AGE\t[[:digit:]]\+/PASS_WARN_AGE\t7/' /etc/login.defs
 	echo "<END>"
 }
