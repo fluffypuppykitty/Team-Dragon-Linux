@@ -1,0 +1,60 @@
+#!/bin/bash
+
+{
+echo "<UPDATE UTILITIES>"
+	echo "<START>"
+apt-get purge firefox --force-yes -y
+apt-get purge libreoffice --force-yes -y
+apt-get purge ssh --force -yes -y
+sudo apt-get update
+apt-get install firefox --force-yes -y
+apt-get install libreoffice --force-yes -y
+apt-get install ssh --force-yes -y
+	echo "<END>"
+}
+
+{
+echo "<MEDIA FILES>"
+	echo "<START>"
+	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
+	echo "<END>"
+}
+
+{
+echo "<PERMIT ROOT LOGIN>"
+	echo "<START>"
+if [[ -f /etc/ssh/sshd_config ]]; then
+        sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    else
+        sudo apt-get install ssh --force-yes -y
+	sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    fi
+	echo "<END>"
+}
+
+{
+echo "<PERMIT EMPTY PASSWORDS>"
+	echo "<START>"
+if [[ -f /etc/ssh/sshd_config ]]; then
+        sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    else
+        sudo apt-get install ssh --force-yes -y
+	sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    fi
+	echo "<END>"
+}
+
+{
+echo "<ENABLE FIREWALL>"
+	echo "<START>"
+sudo ufw enable
+	echo "<END>"
+}
+
+{
+echo "<DISABLE GUEST>"
+	echo "<START>"
+  sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
+  sed -i 's/allow_guest = true/allow_guest = false/g' /etc/lightdm/lightdm.conf
+	echo "<END>"
+}
