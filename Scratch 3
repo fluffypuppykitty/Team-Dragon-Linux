@@ -1,6 +1,6 @@
 #!/bin/bash
 #(Ctrl+Alt+T)to access terminal
-#This script is designed to take care of common vulnerabilities on Ubuntu 14
+#This script is designed to take care of common vulnerabilities on Ubuntu 14 and is for the use of Team Dragon 2017-18 year only
 
 {
 echo "<UPDATE UTILITIES>"
