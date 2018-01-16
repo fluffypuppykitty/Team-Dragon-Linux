@@ -1,6 +1,6 @@
 #!/bin/bash
 #(Ctrl+Alt+T)to access terminal
-#This script is designed to take care of common vulnerabilities on Ubuntu 14 and is for the use of Team Dragon 2017-18 year only
+#This script is designed to take care of common vulnerabilities on Ubuntu 14
 
 {
 echo "<UPDATE UTILITIES>"
@@ -99,3 +99,12 @@ sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.def
     	sed -i -e 's/PASS_WARN_AGE\t[[:digit:]]\+/PASS_WARN_AGE\t7/' /etc/login.defs
 	echo "<END>"
 }
+
+{
+{
+echo "<AUTOMATIC UPDATING>"
+	echo "<START>"
+sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package-Lists "1";/g' /etc/apt/apt.conf.d/10periodic
+	echo "<END>"
+}
+
