@@ -1,33 +1,119 @@
-#!/bin/python
+#!/bin/bash
+#(Ctrl+Alt+T)to access terminal
+#This script is designed to take care of common vulnerabilities on Ubuntu 14
 
-# This is just a script I am trying out; Not final!
-# It's purpose is to fix the "regular" vulnerabilities in Linux (things like enable firwall, disabling root, removing malware)
-# This script is for the use of Team Dragon ONLY
-import os
-os.system("sudo ufw enable")
-os.system("sudo ufw deny telnet")
-os.system("sudo ufw deny ftp")
-os.system("sudo ufw allow ssh")
+{
+echo "<UPDATE UTILITIES>"
+	echo "<START>"
+apt-get purge firefox --force-yes -y
+apt-get purge libreoffice --force-yes -y
+apt-get purge ssh --force -yes -y
+sudo apt-get update
+apt-get install firefox --force-yes -y
+apt-get install libreoffice --force-yes -y
+apt-get install ssh --force-yes -y
+	echo "<END>"
+}
 
-os.system("sudo apt-get purge samba")
-os.system("sudo apt-get purge john")
-os.system("sudo apt-get purge ftp")
-os.system("sudo apt-get purge telnet")
+{
+echo "<MEDIA FILES>"
+	echo "<START>"
+	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
+	echo "<END>"
+}
 
-os.system("sudo apt-get install synaptic")
-os.system("sudo synaptic")
-# Search for malware here and uncheck the boxes
-# Examples:netcat, rainbowcrack, telnet, ftp, vnc, etc.
+{
+echo "<PERMIT ROOT LOGIN>"
+	echo "<START>"
+if [[ -f /etc/ssh/sshd_config ]]; then
+        sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    else
+        sudo apt-get install ssh --force-yes -y
+	sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
+    fi
+	echo "<END>"
+}
 
-os.system("sudo nano /etc/ssh/sshd_config")
-# Set PermitRootLogin to no
+{
+echo "<PERMIT EMPTY PASSWORDS>"
+	echo "<START>"
+if [[ -f /etc/ssh/sshd_config ]]; then
+        sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    else
+        sudo apt-get install ssh --force-yes -y
+	sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
+    fi
+	echo "<END>"
+}
 
-os.system("sudo nano /etc/lightdm/lightdm.conf")
-# Remove line with autologin-user
-# Add the line: allow_guest=false
+{
+echo "<ENABLE FIREWALL>"
+	echo "<START>"
+sudo ufw enable
+	echo "<END>"
+}
 
-os.system("sudo apt-get install libpam.cracklib")
-os.system("sudo nano /etc/pam.d/common-password")
-# At end of pam_unix.so line; remember=5
-# At end of pam_cracklib.so line; ucredit=1; lcredit=1; dcredit=1; ocredit=1
+{
+echo "<DISABLE GUEST>"
+	echo "<START>"
+  sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
+  sed -i 's/allow_guest = true/allow_guest = false/g' /etc/lightdm/lightdm.conf
+  sed -i 's/allow_guest = /allow_guest = false/g' /etc/lightdm/lightdm.conf
+	echo "<END>"
+}
+
+{
+echo "<FIREWALL PORT RULES>"
+	echo "<START>"
+  sudo ufw allow ssh
+  sudo ufw deny telnet
+  sudo ufw deny ftp
+	echo "<END>"
+}
+
+{
+echo "<REMOVE BAD SERVICES>"
+	echo "<START>"
+  sudo apt-get purge telnet
+  sudo apt-get purge john
+  sudo apt-get purge ftp
+  sudo apt-get purge wireshark
+  sudo apt-get purge nmap
+  sudo apt-get purge samba
+  sudo apt-get install synaptic
+       echo "<END>"
+}
+
+{
+echo "<LISTENING PROCESSES>"
+#Look for things like apache, telnet, ftp
+	echo "<START>"
+  sudo netstat -tulnp
+	echo "<END>"
+}
+
+{
+echo "<SECURE ROOT PASSWORD>"
+	echo "<START>"
+  sudo passwd
+#Enter password here
+	echo "<END>"
+}
+
+{
+echo "<PASSWORD POLICY>"
+	echo "<START>"
+sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
+    	sed -i -e 's/PASS_MIN_DAYS\t[[:digit:]]\+/PASS_MIN_DAYS\t10/' /etc/login.defs
+    	sed -i -e 's/PASS_WARN_AGE\t[[:digit:]]\+/PASS_WARN_AGE\t7/' /etc/login.defs
+	echo "<END>"
+}
+
+{
+echo "<AUTOMATIC UPDATING>"
+	echo "<START>"
+sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package-Lists "1";/g' /etc/apt/apt.conf.d/10periodic
+	echo "<END>"
+}
+
 
