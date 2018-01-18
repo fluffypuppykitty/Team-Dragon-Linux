@@ -1,7 +1,17 @@
 #!/bin/bash
 #(Ctrl+Alt+T)to access terminal
 #This script is designed to take care of common vulnerabilities on Ubuntu 14 and is for the use of Team Dragon Cyberpatriot
-
+#	Update utilities
+#	Find media files
+#	Disable permit root login
+#	enable firewall
+#	disable guest
+#	Set firewall port rules
+#	Remove bad services
+#	List listening processes
+#	Secure root password
+#	Set password policy
+#	Set automatic updating
 {
 echo "<UPDATE UTILITIES>"
 	echo "<START>"
