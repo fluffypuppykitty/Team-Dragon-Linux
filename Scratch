@@ -26,13 +26,6 @@ apt-get install ssh --force-yes -y
 }
 
 {
-echo "<MEDIA FILES>"
-	echo "<START>"
-	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
-	echo "<END>"
-}
-
-{
 echo "<PERMIT ROOT LOGIN>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
@@ -95,22 +88,6 @@ echo "<REMOVE BAD SERVICES>"
 }
 
 {
-echo "<LISTENING PROCESSES>"
-#Look for things like apache, telnet, ftp
-	echo "<START>"
-  sudo netstat -tulnp
-	echo "<END>"
-}
-
-{
-echo "<SECURE ROOT PASSWORD>"
-	echo "<START>"
-  sudo passwd
-#Enter password here
-	echo "<END>"
-}
-
-{
 echo "<PASSWORD POLICY>"
 	echo "<START>"
 sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
@@ -126,4 +103,25 @@ sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package
 	echo "<END>"
 }
 
+{
+echo "<MEDIA FILES>"
+	echo "<START>"
+	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
+	echo "<END>"
+}
 
+{
+echo "<LISTENING PROCESSES>"
+#Look for things like apache, telnet, ftp
+	echo "<START>"
+  sudo netstat -tulnp
+	echo "<END>"
+}
+
+{
+echo "<SECURE ROOT PASSWORD>"
+	echo "<START>"
+  sudo passwd
+#Enter password here
+	echo "<END>"
+}
