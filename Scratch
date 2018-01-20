@@ -13,7 +13,7 @@
 #	Set password policy
 #	Set automatic updating
 {
-echo "<UPDATE UTILITIES>"
+tput setaf 1; echo "<UPDATE UTILITIES>"
 	echo "<START>"
 apt-get purge firefox --force-yes -y
 apt-get purge libreoffice --force-yes -y
@@ -26,7 +26,7 @@ apt-get install ssh --force-yes -y
 }
 
 {
-echo "<PERMIT ROOT LOGIN>"
+tput setaf 3; echo "<PERMIT ROOT LOGIN>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
@@ -38,7 +38,7 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-echo "<PERMIT EMPTY PASSWORDS>"
+tput setaf 2;echo "<PERMIT EMPTY PASSWORDS>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
@@ -50,14 +50,14 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-echo "<ENABLE FIREWALL>"
+tput setaf 6;echo "<ENABLE FIREWALL>"
 	echo "<START>"
 sudo ufw enable
 	echo "<END>"
 }
 
 {
-echo "<DISABLE GUEST>"
+tput setaf 4;echo "<DISABLE GUEST>"
 	echo "<START>"
   sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
   sed -i 's/allow_guest = true/allow_guest = false/g' /etc/lightdm/lightdm.conf
@@ -66,7 +66,7 @@ echo "<DISABLE GUEST>"
 }
 
 {
-echo "<FIREWALL PORT RULES>"
+tput setaf 5;echo "<FIREWALL PORT RULES>"
 	echo "<START>"
   sudo ufw allow ssh
   sudo ufw deny telnet
@@ -75,7 +75,7 @@ echo "<FIREWALL PORT RULES>"
 }
 
 {
-echo "<REMOVE BAD SERVICES>"
+tput setaf 1;echo "<REMOVE BAD SERVICES>"
 	echo "<START>"
   sudo apt-get purge telnet
   sudo apt-get purge john
@@ -88,7 +88,7 @@ echo "<REMOVE BAD SERVICES>"
 }
 
 {
-echo "<PASSWORD POLICY>"
+tput setaf 3;echo "<PASSWORD POLICY>"
 	echo "<START>"
 sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
     	sed -i -e 's/PASS_MIN_DAYS\t[[:digit:]]\+/PASS_MIN_DAYS\t10/' /etc/login.defs
@@ -97,21 +97,21 @@ sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.def
 }
 
 {
-echo "<AUTOMATIC UPDATING>"
+tput setaf 2;echo "<AUTOMATIC UPDATING>"
 	echo "<START>"
 sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package-Lists "1";/g' /etc/apt/apt.conf.d/10periodic
 	echo "<END>"
 }
 
 {
-echo "<MEDIA FILES>"
+tput setaf 6;echo "<MEDIA FILES>"
 	echo "<START>"
 	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
 	echo "<END>"
 }
 
 {
-echo "<LISTENING PROCESSES>"
+tput setaf 4;echo "<LISTENING PROCESSES>"
 #Look for things like apache, telnet, ftp
 	echo "<START>"
   sudo netstat -tulnp
@@ -119,7 +119,7 @@ echo "<LISTENING PROCESSES>"
 }
 
 {
-echo "<SECURE ROOT PASSWORD>"
+tput setaf 7;echo "<SECURE ROOT PASSWORD>"
 	echo "<START>"
   sudo passwd
 #Enter password here
