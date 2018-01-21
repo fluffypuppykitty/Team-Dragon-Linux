@@ -13,7 +13,14 @@
 #	Set password policy
 #	Set automatic updating
 {
-tput setaf 1; echo "<UPDATE UTILITIES>"
+echo "<ENABLE IPV4 TCP SYN COOKIES>"
+	echo "<START>"
+ sed -i 's/net.ipv4.tcp_syncookies = 0/net.ipv4.tcp_syncookies = 1/g' /etc/sysctl.conf
+	echo"<END>"
+}
+
+{
+echo "<UPDATE UTILITIES>"
 	echo "<START>"
 apt-get purge firefox --force-yes -y
 apt-get purge libreoffice --force-yes -y
@@ -26,7 +33,7 @@ apt-get install ssh --force-yes -y
 }
 
 {
-tput setaf 3; echo "<PERMIT ROOT LOGIN>"
+echo "<PERMIT ROOT LOGIN>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
@@ -38,7 +45,7 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-tput setaf 2;echo "<PERMIT EMPTY PASSWORDS>"
+echo "<PERMIT EMPTY PASSWORDS>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
@@ -50,23 +57,23 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-tput setaf 6;echo "<ENABLE FIREWALL>"
+echo "<ENABLE FIREWALL>"
 	echo "<START>"
 sudo ufw enable
 	echo "<END>"
 }
 
 {
-tput setaf 4;echo "<DISABLE GUEST>"
+echo "<DISABLE GUEST>"
 	echo "<START>"
   sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
-  sed -i 's/allow_guest = true/allow_guest = false/g' /etc/lightdm/lightdm.conf
-  sed -i 's/allow_guest = /allow_guest = false/g' /etc/lightdm/lightdm.conf
+  sed -i 's/allow-guest = true/allow-guest = false/g' /etc/lightdm/lightdm.conf
+  sed -i 's/allow-guest = /allow-guest = false/g' /etc/lightdm/lightdm.conf
 	echo "<END>"
 }
 
 {
-tput setaf 5;echo "<FIREWALL PORT RULES>"
+echo "<FIREWALL PORT RULES>"
 	echo "<START>"
   sudo ufw allow ssh
   sudo ufw deny telnet
@@ -75,7 +82,7 @@ tput setaf 5;echo "<FIREWALL PORT RULES>"
 }
 
 {
-tput setaf 1;echo "<REMOVE BAD SERVICES>"
+echo "<REMOVE BAD SERVICES>"
 	echo "<START>"
   sudo apt-get purge telnet
   sudo apt-get purge john
@@ -83,13 +90,16 @@ tput setaf 1;echo "<REMOVE BAD SERVICES>"
   sudo apt-get purge wireshark
   sudo apt-get purge nmap
   sudo apt-get purge samba
+  sudo apt-get purge ophcrack
+  sudo apt-get purge hydra
   sudo apt-get install synaptic
        echo "<END>"
 }
 
 {
-tput setaf 3;echo "<PASSWORD POLICY>"
+echo "<PASSWORD POLICY>"
 	echo "<START>"
+sudo apt-get install libpam-cracklib --force-yes -y
 sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
     	sed -i -e 's/PASS_MIN_DAYS\t[[:digit:]]\+/PASS_MIN_DAYS\t10/' /etc/login.defs
     	sed -i -e 's/PASS_WARN_AGE\t[[:digit:]]\+/PASS_WARN_AGE\t7/' /etc/login.defs
@@ -97,21 +107,21 @@ sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.def
 }
 
 {
-tput setaf 2;echo "<AUTOMATIC UPDATING>"
+echo "<AUTOMATIC UPDATING>"
 	echo "<START>"
 sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package-Lists "1";/g' /etc/apt/apt.conf.d/10periodic
 	echo "<END>"
 }
 
 {
-tput setaf 6;echo "<MEDIA FILES>"
+echo "<MEDIA FILES>"
 	echo "<START>"
 	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
 	echo "<END>"
 }
 
 {
-tput setaf 4;echo "<LISTENING PROCESSES>"
+echo "<LISTENING PROCESSES>"
 #Look for things like apache, telnet, ftp
 	echo "<START>"
   sudo netstat -tulnp
@@ -119,7 +129,7 @@ tput setaf 4;echo "<LISTENING PROCESSES>"
 }
 
 {
-tput setaf 7;echo "<SECURE ROOT PASSWORD>"
+echo "<SECURE ROOT PASSWORD>"
 	echo "<START>"
   sudo passwd
 #Enter password here
