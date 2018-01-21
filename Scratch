@@ -12,6 +12,8 @@
 #	Secure root password
 #	Set password policy
 #	Set automatic updating
+#	Scans for viruses
+#	Activates tcp syn cookie protection
 {
 echo "<ENABLE IPV4 TCP SYN COOKIES>"
 	echo "<START>"
