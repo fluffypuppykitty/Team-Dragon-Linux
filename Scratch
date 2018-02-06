@@ -58,7 +58,8 @@ sudo apt-get install clamav
 sudo freshclam
 sudo apt-get install lynis
 sudo lynis --check-all
-sudo apt-get install chrootkit
+sudo apt-get install chkrootkit
+sudo chkrootkit
 	echo "<END>"
 }
 
