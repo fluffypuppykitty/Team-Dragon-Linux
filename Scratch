@@ -60,6 +60,7 @@ sudo apt-get install lynis
 sudo lynis --check-all
 sudo apt-get install chkrootkit
 sudo chkrootkit
+sudo apt-get install rkhunter
 	echo "<END>"
 }
 
