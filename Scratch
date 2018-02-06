@@ -14,11 +14,28 @@
 #	Set automatic updating
 #	Scans for viruses
 #	Activates tcp syn cookie protection
+
 {
-echo "<ENABLE IPV4 TCP SYN COOKIES>"
+echo "<ENABLE SYN COOKIES + DISABLE IPv6>"
 	echo "<START>"
- sed -i 's/net.ipv4.tcp_syncookies = 0/net.ipv4.tcp_syncookies = 1/g' /etc/sysctl.conf
-	echo"<END>"
+ sed -i 's/net.ipv4.tcp_syncookies=0/net.ipv4.tcp_syncookies=1/g' /etc/sysctl.conf
+
+ sed -i 's/net.ipv6.conf.all.disable_ipv6=0/net.ipv6.conf.all.disable_ipv6=1/g' /etc/sysctl.conf
+	echo "<END>"
+}
+
+{
+echo "<DISABLE IP FORWARDING>"
+	echo "<START>"
+sudo echo 0 > /proc/sys/net/ipv4/ip_forward
+	echo "<END>"
+}
+
+{
+echo "<PREVENT IP SPOOFING>"
+	echo "<START>"
+sudo echo "nospoof on" >> /etc/host.conf
+	echo "<END>"
 }
 
 {
@@ -39,6 +56,9 @@ echo "<VIRUS SCAN>"
 	echo "<START>"
 sudo apt-get install clamav
 sudo freshclam
+sudo apt-get install lynis
+sudo lynis --check-all
+sudo apt-get install chrootkit
 	echo "<END>"
 }
 
@@ -102,6 +122,7 @@ echo "<REMOVE BAD SERVICES>"
   sudo apt-get purge samba
   sudo apt-get purge ophcrack
   sudo apt-get purge hydra
+  sudo apt-get purge keylogger
   sudo apt-get install synaptic
   sudo apt-get install bum
        echo "<END>"
