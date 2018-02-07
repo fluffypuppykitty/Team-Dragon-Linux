@@ -114,7 +114,7 @@ echo "<FIREWALL PORT RULES>"
 }
 
 {
-echo "<REMOVE BAD SERVICES>"
+echo "<REMOVE AND STOP BAD SERVICES>"
 	echo "<START>"
   sudo apt-get purge telnet
   sudo apt-get purge john
@@ -127,6 +127,11 @@ echo "<REMOVE BAD SERVICES>"
   sudo apt-get purge keylogger
   sudo apt-get install synaptic
   sudo apt-get install bum
+  sudo service cups stop
+  sudo service vsftp stop
+  sudo service postfix stop
+  sudo service mysql stop
+  sudo service apache2 stop
        echo "<END>"
 }
 
