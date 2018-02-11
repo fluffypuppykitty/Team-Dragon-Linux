@@ -1,16 +1,36 @@
 #!/bin/bash
 #(Ctrl+Alt+T)to access terminal
-#This script is designed to take care of common vulnerabilities on Ubuntu 14 and is for the use of Team Dragon Cyberpatriot
+#This script is designed to take care of common vulnerabilities on Ubuntu 16 and is for the use of Team Dragon Cyberpatriot
+#Initial upgrade
+#Edit /etc/sysctl.conf
+#Disable IP forwarding
+#Disable IP spoofing
+#Update utilities
+#Virus scan
+#PermitRootLogin
+#PermitEmptyPasswords
+#StrictModes
+#Enable firewall
+#Disable guest
+#Firewall port rules
+#Remove Bad Services
+#Make only root access cron
+#Stop bad services
+#Password policy
+#Automatic updating
+#Media Files
+#Listening processes
+#Secure root password
 
 {
-echo "<INITIAL UPGRADE>"
+tput setaf 1; echo "<INITIAL UPGRADE>"
 	echo "<START>"
   sudo apt-get upgrade
 	echo "<STOP>"
 }
 
 {
-echo "<EDIT /ETC/SYSCTL.CONF 1>"
+tput setaf 3; echo "<EDIT /ETC/SYSCTL.CONF 1>"
 	echo "<START>"
 #IP SPOOFING PROTECTION
 
@@ -59,7 +79,7 @@ echo "<EDIT /ETC/SYSCTL.CONF 1>"
 }
 
 {
-echo "<EDIT /ETC/SYSCTL.CONF 2>"
+tput setaf 2; echo "<EDIT /ETC/SYSCTL.CONF 2>"
 	echo "<START>"
 #IP SPOOFING PROTECTION
 
@@ -108,21 +128,21 @@ echo "<EDIT /ETC/SYSCTL.CONF 2>"
 }
 
 {
-echo "<DISABLE IP FORWARDING>"
+tput setaf 4; echo "<DISABLE IP FORWARDING>"
 	echo "<START>"
 sudo echo 0 > /proc/sys/net/ipv4/ip_forward
 	echo "<END>"
 }
 
 {
-echo "<PREVENT IP SPOOFING>" 
+tput setaf 6; echo "<PREVENT IP SPOOFING>" 
 	echo "<START>"
 sudo echo "nospoof on" >> /etc/host.conf
 	echo "<END>"
 }
 
 {
-echo "<UPDATE UTILITIES>"
+tput etaf 5; echo "<UPDATE UTILITIES>"
 	echo "<START>"
 apt-get purge firefox --force-yes -y
 apt-get purge libreoffice --force-yes -y
@@ -135,15 +155,16 @@ apt-get install ssh --force-yes -y
 }
 
 {
-echo "<VIRUS SCAN>"
+tput setaf 1;echo "<VIRUS SCAN>"
 	echo "<START>"
 sudo apt-get install clamav
 sudo freshclam
+sudo apt-get install rkhunter
 	echo "<END>"
 }
 
 {
-echo "<PERMIT ROOT LOGIN>"
+tput setaf 3;echo "<PERMIT ROOT LOGIN>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
@@ -155,7 +176,7 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-echo "<PERMIT EMPTY PASSWORDS>"
+tput setaf 2; echo "<PERMIT EMPTY PASSWORDS>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
@@ -167,7 +188,7 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-echo "<STRICTMODES>"
+tput setaf 4; echo "<STRICTMODES>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/StrictModes .*/StrictModes yes/g' /etc/ssh/sshd_config
@@ -179,14 +200,14 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-echo "<ENABLE FIREWALL>"
+tput setaf 6; echo "<ENABLE FIREWALL>"
 	echo "<START>"
 sudo ufw enable
 	echo "<END>"
 }
 
 {
-echo "<DISABLE GUEST>"
+tput setaf 5; echo "<DISABLE GUEST>"
 	echo "<START>"
   sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
   sed -i 's/allow-guest = true/allow-guest = false/g' /etc/lightdm/lightdm.conf
@@ -195,7 +216,7 @@ echo "<DISABLE GUEST>"
 }
 
 {
-echo "<FIREWALL PORT RULES>"
+tput setaf 1; echo "<FIREWALL PORT RULES>"
 	echo "<START>"
   sudo ufw allow ssh
   sudo ufw deny telnet
@@ -204,7 +225,7 @@ echo "<FIREWALL PORT RULES>"
 }
 
 {
-echo "<REMOVE BAD SERVICES>"
+tput setaf 3; echo "<REMOVE BAD SERVICES>"
 	echo "<START>"
   sudo apt-get purge telnet
   sudo apt-get purge john
@@ -221,7 +242,30 @@ echo "<REMOVE BAD SERVICES>"
 }
 
 {
-echo "<PASSWORD POLICY>"
+tput setaf 2; echo "<MAKE ONLY ROOT ACCESS CRON>"
+	echo "<START>"
+  cd /etc/
+  /bin/rm -f cron.deny at.deny
+  echo root >cron.allow
+  echo root >at.allow
+  /bin/chown root:root cron.allow at.allow
+  /bin/chmod 400 cron.allow at.allow
+	echo "<END>"
+}
+
+{
+tput setaf 4; echo "<STOP BAD SERVICES>"
+	echo "<START>"
+  sudo service cups stop
+  sudo service vsftp stop
+  sudo service postfix stop
+  sudo service mysql stop
+  sudo service apache2 stop
+	echo "<STOP>"
+}
+
+{
+tput setaf 6; echo "<PASSWORD POLICY>"
 	echo "<START>"
 sudo apt-get install libpam-cracklib --force-yes -y
 sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
@@ -231,21 +275,21 @@ sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.def
 }
 
 {
-echo "<AUTOMATIC UPDATING>"
+tput setaf 5; echo "<AUTOMATIC UPDATING>"
 	echo "<START>"
 sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package-Lists "1";/g' /etc/apt/apt.conf.d/10periodic
 	echo "<END>"
 }
 
 {
-echo "<MEDIA FILES>"
+tput setaf 1; echo "<MEDIA FILES>"
 	echo "<START>"
 	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
 	echo "<END>"
 }
 
 {
-echo "<LISTENING PROCESSES>"
+tput setaf 3; echo "<LISTENING PROCESSES>"
 #Look for things like apache, telnet, ftp
 	echo "<START>"
   sudo netstat -tulnp
@@ -253,7 +297,7 @@ echo "<LISTENING PROCESSES>"
 }
 
 {
-echo "<SECURE ROOT PASSWORD>"
+tput setaf 2; echo "<SECURE ROOT PASSWORD>"
 	echo "<START>"
   sudo passwd
 #Enter password here
