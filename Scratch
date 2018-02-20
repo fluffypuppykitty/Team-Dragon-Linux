@@ -23,14 +23,14 @@
 #Secure root password
 
 {
-tput setaf 1; echo "<INITIAL UPGRADE>"
+echo "<INITIAL UPGRADE>"
 	echo "<START>"
   sudo apt-get upgrade
 	echo "<STOP>"
 }
 
 {
-tput setaf 3; echo "<EDIT /ETC/SYSCTL.CONF 1>"
+echo "<EDIT /ETC/SYSCTL.CONF 1>"
 	echo "<START>"
 #IP SPOOFING PROTECTION
 
@@ -79,7 +79,7 @@ tput setaf 3; echo "<EDIT /ETC/SYSCTL.CONF 1>"
 }
 
 {
-tput setaf 2; echo "<EDIT /ETC/SYSCTL.CONF 2>"
+echo "<EDIT /ETC/SYSCTL.CONF 2>"
 	echo "<START>"
 #IP SPOOFING PROTECTION
 
@@ -128,21 +128,21 @@ tput setaf 2; echo "<EDIT /ETC/SYSCTL.CONF 2>"
 }
 
 {
-tput setaf 4; echo "<DISABLE IP FORWARDING>"
+echo "<DISABLE IP FORWARDING>"
 	echo "<START>"
 sudo echo 0 > /proc/sys/net/ipv4/ip_forward
 	echo "<END>"
 }
 
 {
-tput setaf 6; echo "<PREVENT IP SPOOFING>" 
+echo "<PREVENT IP SPOOFING>" 
 	echo "<START>"
 sudo echo "nospoof on" >> /etc/host.conf
 	echo "<END>"
 }
 
 {
-tput etaf 5; echo "<UPDATE UTILITIES>"
+echo "<UPDATE UTILITIES>"
 	echo "<START>"
 apt-get purge firefox --force-yes -y
 apt-get purge libreoffice --force-yes -y
@@ -155,7 +155,7 @@ apt-get install ssh --force-yes -y
 }
 
 {
-tput setaf 1;echo "<VIRUS SCAN>"
+echo "<VIRUS SCAN>"
 	echo "<START>"
 sudo apt-get install clamav
 sudo freshclam
@@ -164,7 +164,7 @@ sudo apt-get install rkhunter
 }
 
 {
-tput setaf 3;echo "<PERMIT ROOT LOGIN>"
+echo "<PERMIT ROOT LOGIN>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitRootLogin .*/PermitRootLogin no/g' /etc/ssh/sshd_config
@@ -176,7 +176,7 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-tput setaf 2; echo "<PERMIT EMPTY PASSWORDS>"
+echo "<PERMIT EMPTY PASSWORDS>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/PermitEmptyPasswords .*/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
@@ -188,7 +188,7 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-tput setaf 4; echo "<STRICTMODES>"
+echo "<STRICTMODES>"
 	echo "<START>"
 if [[ -f /etc/ssh/sshd_config ]]; then
         sed -i 's/StrictModes .*/StrictModes yes/g' /etc/ssh/sshd_config
@@ -200,14 +200,14 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-tput setaf 6; echo "<ENABLE FIREWALL>"
+echo "<ENABLE FIREWALL>"
 	echo "<START>"
 sudo ufw enable
 	echo "<END>"
 }
 
 {
-tput setaf 5; echo "<DISABLE GUEST>"
+echo "<DISABLE GUEST>"
 	echo "<START>"
   sed -i '/autologin_user/d' /etc/lightdm/lightdm.conf
   sed -i 's/allow-guest = true/allow-guest = false/g' /etc/lightdm/lightdm.conf
@@ -216,7 +216,7 @@ tput setaf 5; echo "<DISABLE GUEST>"
 }
 
 {
-tput setaf 1; echo "<FIREWALL PORT RULES>"
+echo "<FIREWALL PORT RULES>"
 	echo "<START>"
   sudo ufw allow ssh
   sudo ufw deny telnet
@@ -225,7 +225,7 @@ tput setaf 1; echo "<FIREWALL PORT RULES>"
 }
 
 {
-tput setaf 3; echo "<REMOVE BAD SERVICES>"
+echo "<REMOVE BAD SERVICES>"
 	echo "<START>"
   sudo apt-get purge telnet
   sudo apt-get purge john
@@ -242,7 +242,7 @@ tput setaf 3; echo "<REMOVE BAD SERVICES>"
 }
 
 {
-tput setaf 2; echo "<MAKE ONLY ROOT ACCESS CRON>"
+echo "<MAKE ONLY ROOT ACCESS CRON>"
 	echo "<START>"
   cd /etc/
   /bin/rm -f cron.deny at.deny
@@ -254,7 +254,14 @@ tput setaf 2; echo "<MAKE ONLY ROOT ACCESS CRON>"
 }
 
 {
-tput setaf 4; echo "<STOP BAD SERVICES>"
+echo "<LIMIT SU ACCESS>"
+	echo "<START>"
+sudo dpkg-statoverride --update --add root sudo 4750 /bin/su
+	echo "<END>"
+}
+
+{
+echo "<STOP BAD SERVICES>"
 	echo "<START>"
   sudo service cups stop
   sudo service vsftp stop
@@ -265,7 +272,7 @@ tput setaf 4; echo "<STOP BAD SERVICES>"
 }
 
 {
-tput setaf 6; echo "<PASSWORD POLICY>"
+echo "<PASSWORD POLICY>"
 	echo "<START>"
 sudo apt-get install libpam-cracklib --force-yes -y
 sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.defs
@@ -275,21 +282,21 @@ sed -i.bak -e 's/PASS_MAX_DAYS\t[[:digit:]]\+/PASS_MAX_DAYS\t90/' /etc/login.def
 }
 
 {
-tput setaf 5; echo "<AUTOMATIC UPDATING>"
+echo "<AUTOMATIC UPDATING>"
 	echo "<START>"
 sed -i 's/APT::Periodic::Update-Package-Lists "0";/APT::Periodic::Update-Package-Lists "1";/g' /etc/apt/apt.conf.d/10periodic
 	echo "<END>"
 }
 
 {
-tput setaf 1; echo "<MEDIA FILES>"
+echo "<MEDIA FILES>"
 	echo "<START>"
 	find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
 	echo "<END>"
 }
 
 {
-tput setaf 3; echo "<LISTENING PROCESSES>"
+echo "<LISTENING PROCESSES>"
 #Look for things like apache, telnet, ftp
 	echo "<START>"
   sudo netstat -tulnp
@@ -297,7 +304,7 @@ tput setaf 3; echo "<LISTENING PROCESSES>"
 }
 
 {
-tput setaf 2; echo "<SECURE ROOT PASSWORD>"
+echo "<SECURE ROOT PASSWORD>"
 	echo "<START>"
   sudo passwd
 #Enter password here
