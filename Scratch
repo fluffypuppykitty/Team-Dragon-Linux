@@ -200,9 +200,16 @@ if [[ -f /etc/ssh/sshd_config ]]; then
 }
 
 {
-echo "<ENABLE FIREWALL>"
+echo "<FIREWALL ENABLE>"
 	echo "<START>"
 sudo ufw enable
+	echo "<END>"
+}
+
+{
+echo "<ENABLE FIREWALL LOGGING>"
+	echo "<START>"
+sudo ufw logging full
 	echo "<END>"
 }
 
