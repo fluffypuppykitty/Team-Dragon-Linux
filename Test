@@ -1,5 +1,18 @@
 <!DOCTYPE html>
-<html>
-<title>Encyclopedia</title>
-</head>
-<body>
+<html dir = "ltr">
+
+  <head>
+    <title>Encyclopedia</title>
+  </head>
+
+  <body>
+    <center>
+      <h1><b><big>Welcome!</big></b></h1>
+      <p>Here, at Encyclopedia, you can explore the wonders of the world, just from your home!<br />
+      We make it easy for you to research anything. Information here is credible and perfect for<br />
+      school projects and work.Our easy-to-read notes</p>
+    </center>
+  </body>
+  
+</html>
+
